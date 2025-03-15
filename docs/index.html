@@ -39,6 +39,9 @@ window.addEventListener('load', function() {
         sel.appendChild(elt);
     }
 
+    var defSymbolIndex = opts.findIndex(item => item.sym === "ean13");
+    defSymbolIndex = defSymbolIndex !== -1 ? defSymbolIndex : 0;
+
     sel.addEventListener('change', function(ev) {
             var desc = symdesc[sel.value];
             if (desc) {
@@ -59,7 +62,7 @@ window.addEventListener('load', function() {
     if (lastSymbol) {
         sel.value = lastSymbol;
     } else {
-        sel.selectedIndex = 0;
+        sel.selectedIndex = defSymbolIndex;
     }
     var evt = document.createEvent("HTMLEvents");
     evt.initEvent("change", false, true);
@@ -167,9 +170,9 @@ function render() {
     opts.scaleX = scaleX;
     opts.scaleY = scaleY;
     opts.rotate = rotate;
-    if (alttext) {
-        opts.alttext = alttext;
-    }
+    // if (alttext) {
+    //     opts.alttext = alttext;
+    // }
 
     if (renderAs == 'render-canvas') {
         // Draw the bar code to the canvas
@@ -269,50 +272,81 @@ function setURL() {
 </script>
 </head><body>
 <div id="header">
-    <div id="bwip-js">bwip-js // Barcode Writer in Pure JavaScript</div>
-    <div id="versions"></div>
+    <div id="bwip-js">Barcode generator</div>
+    <div style="display: none;"id="versions"></div>
 </div>
 <div id="params">
-<table border=0 cellpading=0 cellspacing=0><tr>
-<td style="vertical-align:top">
-    <table border=0 cellpading=0 cellspacing=0>
-    <tr><th>Barcode Type:<td><select id="symbol"></select>
-    <tr><th>Bar Text:<td><input id="symtext" type="text" spellcheck="false">
-    <tr><th>Alt Text:<td><input id="symaltx" type="text" spellcheck="false">
-    <tr><th>Options:<td><input id="symopts" type="text" spellcheck="false">
-    <tr><td><td>
-        <div id="stats"></div>
-        <div id="saveas">
-        <a class="saveas" href="javascript:saveCanvas('image/png','.png')">Save As PNG</a>
-        &nbsp;&nbsp;
-        <a class="saveas" href="javascript:saveCanvas('image/jpeg','.jpg')">Save As JPEG</a>
-        &nbsp;&nbsp;
-        <a class="saveas" id="apiurl" href="">Goto URL</a>
-        &nbsp;&nbsp;
-        </div>
-    </table>
-<td style="padding-left:10mm;vertical-align:top">
-    <table border=0 cellpading=0 cellspacing=5>
-    <tr><th>Render As:<td>
-        <label for="render-canvas"><input type="radio" name="render-as" id="render-canvas" checked>Canvas</label>
-        <label for="render-svg"><input type="radio" name="render-as" id="render-svg">SVG</label>
-    <tr><th>Scale X,Y:<td>
-        <input type="number" min=1 max=9 step=1 id="scaleX" value=2>
-        <input type="number" min=1 max=9 step=1 id="scaleY" value=2>
-    <tr><th>Image Rotation:<td>
-        <label for="rotateN"><input type="radio" name="rotate" value="N"
-            id="rotateN" checked>Normal</label>
-        <label for="rotateR"><input type="radio" name="rotate" value="R"
-            id="rotateR">Right</label>
-        <label for="rotateL"><input type="radio" name="rotate" value="L"
-            id="rotateL">Left</label>
-        <label for="rotateI"><input type="radio" name="rotate" value="I"
-            id="rotateI">Invert</label>
-    <tr><td><td><button style="margin-top:1ex" id="render">Show Barcode</button>
-    </table>
-<tr><td><br>
+<table border=0 cellpading=0 cellspacing=0>
+    <tr>
+        <td style="vertical-align:top">
+            <table border=0 cellpading=0 cellspacing=0>
+                <tr>
+                    <th>Barcode Type:
+                    <td><select id="symbol"></select>
+                <tr>
+                    <th>Bar Text:
+                    <td><input id="symtext" type="text" spellcheck="false">
+                <tr style="display: none;">
+                    <th>Alt Text:
+                    <td><input id="symaltx" type="text" spellcheck="false">
+                <tr>
+                    <th>Options:
+                    <td><input id="symopts" type="text" spellcheck="false">
+                <!-- <tr>
+                    <td>
+                    <td>
+                        <div id="stats"></div>
+                        <div id="saveas">
+                            <a class="saveas" href="javascript:saveCanvas('image/png','.png')">Save As PNG</a>
+                            &nbsp;&nbsp;
+                            <a class="saveas" href="javascript:saveCanvas('image/jpeg','.jpg')">Save As JPEG</a>
+                            &nbsp;&nbsp;
+                            <a class="saveas" id="apiurl" href="">Goto URL</a>
+                            &nbsp;&nbsp;
+                        </div> -->
+            </table>
+    <tr>
+        <td style="padding-left:10mm;vertical-align:top">
+            <table border=0 cellpading=0 cellspacing=5>
+                <tr>
+                    <th>Render As:
+                    <td>
+                        <label for="render-canvas"><input type="radio" name="render-as" id="render-canvas"
+                                checked>Canvas</label>
+                        <label for="render-svg"><input type="radio" name="render-as" id="render-svg">SVG</label>
+                <tr>
+                    <th>Scale X,Y:
+                    <td>
+                        <input type="number" min=1 max=9 step=1 id="scaleX" value=2>
+                        <input type="number" min=1 max=9 step=1 id="scaleY" value=2>
+                <tr>
+                    <th>Image Rotation:
+                    <td>
+                        <label for="rotateN"><input type="radio" name="rotate" value="N" id="rotateN"
+                                checked>Normal</label>
+                        <label for="rotateR"><input type="radio" name="rotate" value="R" id="rotateR">Right</label>
+                        <label for="rotateL"><input type="radio" name="rotate" value="L" id="rotateL">Left</label>
+                        <label for="rotateI"><input type="radio" name="rotate" value="I" id="rotateI">Invert</label>
+                <tr>
+                    <td>
+                    <td><button style="margin-top:1ex" id="render">Show Barcode</button>
+            </table>
 </table>
 </div>
+<table border=0 cellpading=0 cellspacing=0>
+    <tr>
+        <td>
+        <td>
+            <div id="stats"></div>
+            <div id="saveas">
+                <a class="saveas" href="javascript:saveCanvas('image/png','.png')">Save As PNG</a>
+                &nbsp;&nbsp;
+                <a class="saveas" href="javascript:saveCanvas('image/jpeg','.jpg')">Save As JPEG</a>
+                &nbsp;&nbsp;
+                <a class="saveas" id="apiurl" href="">Goto URL</a>
+                &nbsp;&nbsp;
+            </div>
+</table>
 <div id="content">
 <canvas id="canvas" width=1 height=1 style="display:none"></canvas>
 <div id="svgdiv" style="display:none"></div>

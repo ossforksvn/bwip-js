@@ -11,7 +11,8 @@
 var symdesc = {
     "ean5":{ sym:"ean5",desc:"EAN-5 (5 digit addon)",text:"90200",opts:"includetext guardwhitespace" },
     "ean2":{ sym:"ean2",desc:"EAN-2 (2 digit addon)",text:"05",opts:"includetext guardwhitespace" },
-    "ean13":{ sym:"ean13",desc:"EAN-13",text:"9520123456788",opts:"includetext guardwhitespace" },
+    "ean13":{ sym:"ean13",desc:"EAN-13",text:"893838600001",opts:"includetext" },
+    // "ean13":{ sym:"ean13",desc:"EAN-13",text:"893838600001",opts:"includetext guardwhitespace" },
     "ean8":{ sym:"ean8",desc:"EAN-8",text:"95200002",opts:"includetext guardwhitespace" },
     "upca":{ sym:"upca",desc:"UPC-A",text:"012345000058",opts:"includetext" },
     "upce":{ sym:"upce",desc:"UPC-E",text:"01234558",opts:"includetext" },
